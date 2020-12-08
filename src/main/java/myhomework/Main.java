@@ -28,6 +28,7 @@ public class Main {
         client3.start();
         client4.start();
         client5.start();
+
         requestHandler1.start();
         requestHandler2.start();
 

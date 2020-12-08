@@ -5,7 +5,7 @@ import java.util.ArrayDeque;
 public class DataSystem {
 
 
-    private ArrayDeque<Request> requests = new ArrayDeque<>();
+    private final ArrayDeque<Request> REQUESTS = new ArrayDeque<>();
 
    /* true if reciever should wait
     false if sender should wait
@@ -13,7 +13,7 @@ public class DataSystem {
 
 
     public synchronized void sendInvoice(Request request){
-        while (requests.size() >= 2){
+        while (REQUESTS.size() >= 2){
             try{
                 wait();
             } catch (InterruptedException e) {
@@ -22,13 +22,13 @@ public class DataSystem {
             }
         }
 
-        requests.add(request);
+        REQUESTS.add(request);
         notifyAll();
        }
 
 
     public synchronized Request receive(){
-        while( requests.size() == 0){
+        while( REQUESTS.size() == 0){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -38,7 +38,7 @@ public class DataSystem {
             }
         }
 
-        Request output = requests.removeFirst();
+        Request output = REQUESTS.removeFirst();
         notifyAll();
         return output;
     }

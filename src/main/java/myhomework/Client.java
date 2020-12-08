@@ -2,7 +2,7 @@ package myhomework;
 
 public class Client extends Thread {
 
-    private DataSystem ds;
+    private final DataSystem ds;
     private Request request;
 
     public Client(int id, DataSystem ds) {
@@ -16,8 +16,6 @@ public class Client extends Thread {
 
     }
 
-
-
     @Override
     public void run() {
         printStatus();
@@ -25,11 +23,10 @@ public class Client extends Thread {
     }
 
     public void printStatus(){
-        StringBuilder sb=  new StringBuilder();
-        sb.append(currentThread().getName());
-        sb.append(": ");
-        sb.append(this.request.toString());
-        sb.append(" отправлена в банк");
-        System.out.println(sb.toString());
+        String sb = currentThread().getName() +
+                ": " +
+                this.request.toString() +
+                " отправлена в банк";
+        System.out.println(sb);
     }
 }

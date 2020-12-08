@@ -2,13 +2,14 @@ package myhomework;
 
 public class RequestHandler extends Thread {
 
-    private DataSystem ds;
-    private Backend storage;
+    private final DataSystem ds;
+    private final Backend storage;
 
     public RequestHandler(int id, DataSystem ds, Backend storage) {
         setName("Обработчик заявок №" + id);
         this.ds = ds;
         this.storage = storage;
+        //setDaemon(true); optional for 5 client purposes
     }
 
     @Override
@@ -21,11 +22,10 @@ public class RequestHandler extends Thread {
     }
 
     public void printStatus(Request request){
-        StringBuilder sb=  new StringBuilder();
-        sb.append(currentThread().getName());
-        sb.append(": ");
-        sb.append(" получена заявка на обработку по клиенту");
-        sb.append(request.getClientName());
-        System.out.println(sb.toString());
+        String sb = currentThread().getName() +
+                ": " +
+                " получена заявка на обработку по клиенту" +
+                request.getClientName();
+        System.out.println(sb);
     }
 }
