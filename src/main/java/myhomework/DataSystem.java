@@ -52,16 +52,6 @@ public class DataSystem {
 
         return output;
     }
-
-
-    public static void main(String[] args) {
-        ArrayDeque<Invoice> que = new ArrayDeque<>();
-        que.add(new Invoice("1",100, Operation.PAYMENT));
-        que.add(new Invoice("2",200, Operation.PAYMENT));
-        que.add(new Invoice("3",200, Operation.PAYMENT));
-        System.out.println(que.size());
-        System.out.println("first: "+que.removeFirst());
-        System.out.println(que.size());
-    }
+    
 
 }
