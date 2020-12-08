@@ -13,23 +13,23 @@ public class Main {
         Client client4 = new Client(4, ds);
         Client client5 = new Client(5, ds);
 
-        client1.createInvoice(1000, Operation.PAYMENT);
-        client2.createInvoice(2000, Operation.PAYMENT);
-        client3.createInvoice(3000, Operation.PAYMENT);
-        client4.createInvoice(4000, Operation.PAYMENT);
-        client5.createInvoice(25000, Operation.CREDIT);
+        client1.createInvoice(1000, RequestType.PAYMENT);
+        client2.createInvoice(2000, RequestType.PAYMENT);
+        client3.createInvoice(3000, RequestType.PAYMENT);
+        client4.createInvoice(4000, RequestType.PAYMENT);
+        client5.createInvoice(25000, RequestType.CREDIT);
 
 
-        Worker worker1 = new Worker(1, ds, storage);
-        Worker worker2 = new Worker(2, ds, storage);
+        RequestHandler requestHandler1 = new RequestHandler(1, ds, storage);
+        RequestHandler requestHandler2 = new RequestHandler(2, ds, storage);
 
         client1.start();
         client2.start();
         client3.start();
         client4.start();
         client5.start();
-        worker1.start();
-        worker2.start();
+        requestHandler1.start();
+        requestHandler2.start();
 
     }
 

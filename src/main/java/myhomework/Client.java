@@ -3,7 +3,7 @@ package myhomework;
 public class Client extends Thread {
 
     private DataSystem ds;
-    private Invoice invoice;
+    private Request request;
 
     public Client(int id, DataSystem ds) {
         setName("Клиент №"+id);
@@ -11,22 +11,24 @@ public class Client extends Thread {
     }
 
 
-    public void createInvoice(int amount, Operation operation){
-        this.invoice = new Invoice(getName(), amount, operation);
+    public void createInvoice(int amount, RequestType requestType){
+        this.request = new Request(getName(), amount, requestType);
+
     }
 
 
 
     @Override
     public void run() {
-        ds.sendInvoice(this.invoice);
+        printStatus();
+        ds.sendInvoice(this.request);
     }
 
     public void printStatus(){
         StringBuilder sb=  new StringBuilder();
         sb.append(currentThread().getName());
         sb.append(": ");
-        sb.append(this.invoice.toString());
+        sb.append(this.request.toString());
         sb.append(" отправлена в банк");
         System.out.println(sb.toString());
     }

@@ -1,36 +1,31 @@
 package myhomework;
 
-public class Worker extends Thread {
+public class RequestHandler extends Thread {
 
     private DataSystem ds;
     private Backend storage;
 
-    public Worker(int id, DataSystem ds, Backend storage) {
+    public RequestHandler(int id, DataSystem ds, Backend storage) {
         setName("Обработчик заявок №" + id);
         this.ds = ds;
         this.storage = storage;
     }
 
-    public Invoice getInvoice() {
-        return ds.receive();
-    }
-
     @Override
     public void run() {
        while (true){
-           Invoice invoice = ds.receive();
-           storage.handleInvoce(invoice);
-
+           Request request = ds.receive();
+           printStatus(request);
+           storage.handleInvoce(request);
        }
-        //printStatus(invoice);
     }
 
-    public void printStatus(Invoice invoice){
+    public void printStatus(Request request){
         StringBuilder sb=  new StringBuilder();
         sb.append(currentThread().getName());
         sb.append(": ");
         sb.append(" получена заявка на обработку по клиенту");
-        sb.append(invoice.getClientName());
+        sb.append(request.getClientName());
         System.out.println(sb.toString());
     }
 }

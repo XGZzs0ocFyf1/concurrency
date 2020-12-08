@@ -1,14 +1,14 @@
 package myhomework;
 
-public class Invoice {
+public class Request {
    private String clientName;
    private long amount;
-   private Operation operation;
+   private RequestType requestType;
 
-    public Invoice(String clientName, long amount, Operation operation) {
+    public Request(String clientName, long amount, RequestType requestType) {
         this.clientName = clientName;
         this.amount = amount;
-        this.operation = operation;
+        this.requestType = requestType;
     }
 
     public String getClientName() {
@@ -19,8 +19,8 @@ public class Invoice {
         return amount;
     }
 
-    public Operation getOperation() {
-        return operation;
+    public RequestType getOperation() {
+        return requestType;
     }
 
 
@@ -29,7 +29,7 @@ public class Invoice {
         return "Заявка{" +
                 "clientTreadName ='" + clientName + '\'' +
                 ", amount=" + amount +
-                ", operation =" + operation +
+                ", operation =" + requestType +
                 '}';
     }
 }

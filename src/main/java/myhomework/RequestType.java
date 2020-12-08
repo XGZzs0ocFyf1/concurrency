@@ -1,5 +1,5 @@
 package myhomework;
 
-public enum Operation {
+public enum RequestType {
     PAYMENT, CREDIT
 }

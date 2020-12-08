@@ -5,16 +5,15 @@ import java.util.ArrayDeque;
 public class DataSystem {
 
 
-    private ArrayDeque<Invoice> invoices = new ArrayDeque<>();
+    private ArrayDeque<Request> requests = new ArrayDeque<>();
 
    /* true if reciever should wait
     false if sender should wait
      */
 
 
-    public synchronized void sendInvoice(Invoice invoice){
-    //    System.out.printf("DS:send:приступил к работе (%s) В очереди %s заявок \n", invoice.getClientName(),invoices.size());
-        while (invoices.size() >= 2){
+    public synchronized void sendInvoice(Request request){
+        while (requests.size() >= 2){
             try{
                 wait();
             } catch (InterruptedException e) {
@@ -23,18 +22,13 @@ public class DataSystem {
             }
         }
 
-        invoices.add(invoice);
-        ((Client)Thread.currentThread()).printStatus();
+        requests.add(request);
         notifyAll();
-       // System.out.printf("DS:send:завершил работу(%s) В очереди %s заявок \n", invoice.getClientName(),invoices.size());
+       }
 
 
-    }
-
-
-    public synchronized Invoice receive(){
-      //  System.out.printf("DS:receive: начал работу: в очереди %s заявок \n", invoices.size());
-        while( invoices.size() == 0){
+    public synchronized Request receive(){
+        while( requests.size() == 0){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -44,14 +38,10 @@ public class DataSystem {
             }
         }
 
-        //here we go!
-        Invoice output = invoices.removeFirst();
-        ((Worker)Thread.currentThread()).printStatus(output);
-        //System.out.printf("DS:receive: закончил работу (%s) В очереди %s заявок \n", output.getClientName(),invoices.size());
+        Request output = requests.removeFirst();
         notifyAll();
-
         return output;
     }
-    
+
 
 }
