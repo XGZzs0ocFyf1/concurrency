@@ -1,36 +1,33 @@
 package myhomework;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Main {
+
+    private final static ExecutorService  clients = Executors.newFixedThreadPool(5);
+    private final static ExecutorService handlers = Executors.newFixedThreadPool(2);
 
     public static void main(String[] args) {
 
         DataSystem ds = new DataSystem();
         Backend storage = new Backend();
 
-        Client client1 = new Client(1, ds);
-        Client client2 = new Client(2, ds);
-        Client client3 = new Client(3, ds);
-        Client client4 = new Client(4, ds);
-        Client client5 = new Client(5, ds);
 
-        client1.createInvoice(1000, RequestType.PAYMENT);
-        client2.createInvoice(2000, RequestType.PAYMENT);
-        client3.createInvoice(3000, RequestType.PAYMENT);
-        client4.createInvoice(4000, RequestType.PAYMENT);
-        client5.createInvoice(25000, RequestType.CREDIT);
+        for (int i = 0; i < 5; i++) {
+            Client c = new Client(i, ds);
+            c.createInvoice(ThreadLocalRandom.current().nextInt(20000), RequestType.PAYMENT);
+            clients.execute(c);
+        }
 
+        for (int i = 0; i < 2; i++) {
+            RequestHandler handler = new RequestHandler(i, ds, storage);
+            handlers.execute(handler);
+        }
 
-        RequestHandler requestHandler1 = new RequestHandler(1, ds, storage);
-        RequestHandler requestHandler2 = new RequestHandler(2, ds, storage);
+        clients.shutdown();
 
-        client1.start();
-        client2.start();
-        client3.start();
-        client4.start();
-        client5.start();
-
-        requestHandler1.start();
-        requestHandler2.start();
 
     }
 

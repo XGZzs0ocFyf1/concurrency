@@ -4,13 +4,7 @@ import java.util.ArrayDeque;
 
 public class DataSystem {
 
-
     private final ArrayDeque<Request> REQUESTS = new ArrayDeque<>();
-
-   /* true if reciever should wait
-    false if sender should wait
-     */
-
 
     public synchronized void sendInvoice(Request request){
         while (REQUESTS.size() >= 2){

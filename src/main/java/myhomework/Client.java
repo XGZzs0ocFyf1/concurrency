@@ -1,9 +1,6 @@
 package myhomework;
 
-public class Client extends Thread {
-
-    private final DataSystem ds;
-    private Request request;
+public class Client extends Process implements Runnable {
 
     public Client(int id, DataSystem ds) {
         setName("Клиент №"+id);
@@ -12,7 +9,7 @@ public class Client extends Thread {
 
 
     public void createInvoice(int amount, RequestType requestType){
-        this.request = new Request(getName(), amount, requestType);
+        this.request = new Request(name, amount, requestType);
 
     }
 
@@ -23,10 +20,12 @@ public class Client extends Thread {
     }
 
     public void printStatus(){
-        String sb = currentThread().getName() +
+        String sb = name +
                 ": " +
                 this.request.toString() +
                 " отправлена в банк";
         System.out.println(sb);
     }
+
+
 }
