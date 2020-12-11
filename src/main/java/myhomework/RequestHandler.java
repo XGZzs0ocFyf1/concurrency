@@ -21,10 +21,14 @@ public class RequestHandler extends Process implements Runnable {
     }
 
     public void printStatus(Request request) {
+        String clientName = "Заявки нет!";
+        if (request != null){
+            clientName = request.getClientName();
+        }
         String sb = name +
                 ": " +
                 " получена заявка на обработку по клиенту" +
-                request.getClientName();
+                clientName;
         System.out.println(sb);
     }
 }

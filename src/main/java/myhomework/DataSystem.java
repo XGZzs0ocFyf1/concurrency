@@ -1,40 +1,38 @@
 package myhomework;
 
-import java.util.ArrayDeque;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class DataSystem {
 
-    private final ArrayDeque<Request> REQUESTS = new ArrayDeque<>();
+    private final BlockingQueue<Request> REQUESTS = new ArrayBlockingQueue(2);
 
     public synchronized void sendInvoice(Request request){
-        while (REQUESTS.size() >= 2){
-            try{
-                wait();
+
+        while (REQUESTS.size() == 2){
+
+            try {
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
-               Thread.currentThread().interrupt();
-                System.err.println("Thread interrupted "+e);
+                e.printStackTrace();
             }
         }
+        if (REQUESTS.size() < 2){
+            REQUESTS.add(request);
+        }
+    }
 
-        REQUESTS.add(request);
-        notifyAll();
-       }
 
-
-    public synchronized Request receive(){
-        while( REQUESTS.size() == 0){
+    public  Request receive(){
+        while (REQUESTS.size() == 0){
             try {
-                wait();
+                Thread.sleep(100);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.err.println("Thread interrupted");
                 e.printStackTrace();
             }
         }
 
-        Request output = REQUESTS.removeFirst();
-        notifyAll();
-        return output;
+        return  REQUESTS.poll();
     }
 
 
