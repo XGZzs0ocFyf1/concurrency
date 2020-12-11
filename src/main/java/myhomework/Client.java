@@ -16,7 +16,7 @@ public class Client extends Process implements Runnable {
     @Override
     public void run() {
         printStatus();
-        ds.sendInvoice(this.request);
+        ds.sendRequest(this.request);
     }
 
     public void printStatus(){

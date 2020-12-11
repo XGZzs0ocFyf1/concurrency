@@ -7,7 +7,7 @@ public class DataSystem {
 
     private final BlockingQueue<Request> REQUESTS = new ArrayBlockingQueue(2);
 
-    public synchronized void sendInvoice(Request request){
+    public synchronized void sendRequest(Request request){
         try {
             REQUESTS.put(request);
         } catch (InterruptedException e) {
@@ -17,7 +17,8 @@ public class DataSystem {
     }
 
 
-    public  Request receive(){
+    //get one element from REQUEST
+    public  Request receiveRequest(){
         Request output = null;
         try {
             output = REQUESTS.take();

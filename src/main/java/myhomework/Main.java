@@ -4,23 +4,31 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+/**
+ * second version of concurrency example
+ * created with using high level
+ * abstraction (without notify, wait, sleep ... etc)
+ * here we use just ExecutorService for Thread generation
+ * and ArrayBlockingQueue as storage
+ */
 public class Main {
 
-    private final static ExecutorService  clients = Executors.newFixedThreadPool(5);
+    private final static ExecutorService clients = Executors.newFixedThreadPool(5);
     private final static ExecutorService handlers = Executors.newFixedThreadPool(2);
+    private final static DataSystem ds = new DataSystem();
+    private final static Backend storage = new Backend();
 
     public static void main(String[] args) {
 
-        DataSystem ds = new DataSystem();
-        Backend storage = new Backend();
-
-
+        //here we generate imitation of client request to our toy bank
         for (int i = 0; i < 5; i++) {
-            Client c = new Client(i, ds);
-            c.createInvoice(ThreadLocalRandom.current().nextInt(20000), RequestType.PAYMENT);
-            clients.execute(c);
+            Client mockClient = new Client(i, ds);
+            mockClient.createInvoice(ThreadLocalRandom.current().nextInt(20000), RequestType.PAYMENT);
+            clients.execute(mockClient);
         }
 
+        //here we create handlers for our toy bank
         for (int i = 0; i < 2; i++) {
             RequestHandler handler = new RequestHandler(i, ds, storage);
             handlers.execute(handler);

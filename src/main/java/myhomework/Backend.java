@@ -1,10 +1,18 @@
 package myhomework;
 
+/**
+ * Imitation of backend system for
+ * concurrent toy bank program.
+ * This architecture used in study purposes.
+ *
+ * Class Backend handles requests that generating
+ * in the DataSystem by Client instances.
+ */
 public class Backend {
 
     private long amount = 0;
 
-    public synchronized void handleInvoce(Request request){
+    public synchronized void handleRequest(Request request){
         long money = request.getAmount();
 
 

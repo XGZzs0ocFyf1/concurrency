@@ -1,5 +1,11 @@
 package myhomework;
 
+
+/**
+ * Daemon type runnable.
+ * Work instantly for handling Requests from
+ * DataSystem.REQUESTS field which is ArrayBlockingQueue
+ */
 public class RequestHandler extends Process implements Runnable {
 
 
@@ -14,9 +20,9 @@ public class RequestHandler extends Process implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Request request = ds.receive();
+            Request request = ds.receiveRequest();
             printStatus(request);
-            storage.handleInvoce(request);
+            storage.handleRequest(request);
         }
     }
 
